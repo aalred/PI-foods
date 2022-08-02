@@ -1,9 +1,10 @@
 const { Router } = require('express');
-const {Diet}= require('../db')
+const { getDiets } = require('../models/models functions/functions');
 const routerDt = Router();
 
-routerDt.get('/', (req, res) =>{
-    
-})
+routerDt.get('/',async (req, res) =>{
+  const diets = await getDiets();
+  res.json(diets)
+});
 
 module.exports = routerDt;

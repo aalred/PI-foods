@@ -1,10 +1,15 @@
+import React from 'react';
 import './App.css';
+// import { Route } from "react-router-dom";
+// Routes
+import LandingPage from './Components/LandingPage';
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>Henry Food</h1>
-    </div>
+    <React.Fragment>
+      <LandingPage />
+    </React.Fragment>
   );
 }
 

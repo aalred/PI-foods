@@ -1,8 +1,8 @@
-const axios = require('axios')
-const { Recipe } = require('../../db');
+const axios = require('axios');
 const { Op } = require("sequelize");
+const { Recipe, Diet } = require('../../db');
 
-const {apiKey} = process.env
+const {apiKey} = process.env;
 
 let data;
 
@@ -51,9 +51,8 @@ module.exports={
         data.instructions = response.data.instructions;
       })
       .catch(err => {
-        throw new Error(err.message)
-    }))
-
+        throw new Error(err.message);
+    }));
     return data;
   },
     
@@ -67,17 +66,42 @@ module.exports={
             [Op.iLike]:`%${name}%`,
           }
         }
-      })
+      });
     }
     if(!data.length) return [404]
-    return data
+    return data;
   },
 
   getDetailDb: async function(id){
     id = parseInt(id)
     data = await Recipe.findByPk(id)
-    if(!data) throw new Error('Request failed with status code 404')
-    return data
-  }
+    if(!data) throw new Error('Request failed with status code 404');
+    return data;
+  },
 
+  getDiets: async function(){
+    data = await Diet.findAll();
+    if(!data.length){
+      data = await Diet.bulkCreate([
+        {name:"Omnivore"},
+        {name:"Gluten Free Diet"},
+        {name:"Ketogenic Diet"},
+        {name:"Vegetarian"},
+        {name:"Lacto-Vegetarian"},
+        {name:"Ovo-Vegetarian"},
+        {name:"Vegan"},
+        {name:"Pescetarian"},
+        {name:"Paleo Diet"},
+        {name:"Low FODMAP Diet"},
+        {name:"Whole30"},
+        {name:"Fruitarian"},
+        {name:"Clean Eating"},
+        {name:"Mediterranean Diet"},
+        {name:"Weight Watchers"},
+        {name:"Grain Free Diet"},
+        {name:"GAPS Diet"},
+      ]);
+    }
+    return data;
+  }
 }

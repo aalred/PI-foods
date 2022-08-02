@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');lp.lolo0.
+const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
@@ -32,5 +32,4 @@ module.exports = (sequelize) => {
     createdAt: true,
     updatedAt: false
   });
-
-};
+}

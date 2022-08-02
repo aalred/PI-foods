@@ -6,8 +6,7 @@ const routerRc = Router();
 routerRc.get('/', async(req, res) =>{
   try {
     const {name} = req.query,
-    // dataApi = await getListApi(name),
-    dataApi =[],
+    dataApi = await getListApi(name),
     dataDb = await getListDb(name);
     
     data = {
@@ -37,16 +36,17 @@ routerRc.get('/:idReceta', async(req, res) =>{
   } catch (error) {
     res.status(404).json({"Error" : error.message})
   }
-})
+});
 
 routerRc.post('/',  async(req, res) =>{
   try {
     const {name, summary, healthScore, instructions } = req.body
     const recipe = await Recipe.create({name, summary, healthScore, instructions})
+    // await recipe.addDiets([1, 2, 3])
     res.json({"message": recipe.toJSON().name + " successfully loaded"})  
   } catch (error) {
     res.status(404).json({"Error" : error.message})
   }
-})
+});
 
 module.exports = routerRc;
