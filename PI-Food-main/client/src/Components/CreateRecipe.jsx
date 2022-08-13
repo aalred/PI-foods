@@ -1,7 +1,7 @@
 import './create-containers/style.css'
 
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { arrayBackground, arrayDiets } from './main-containers/functionsContainers';
@@ -9,6 +9,8 @@ import { getAllDiets } from '../redux/action';
 import { createRecipe } from '../redux/action';
 
 import Input from './main-containers/Input';
+
+import './navbarStyle.css'
 
 export default function CreateRecipe() {
   const dispatch = useDispatch(),
@@ -25,6 +27,7 @@ export default function CreateRecipe() {
 
   [check, setCheck] = useState({
     radio: true, 
+    message: false,
     stateIn: 'normal',  
     stateRd:'normal',
     select: 'diets',
@@ -37,13 +40,29 @@ export default function CreateRecipe() {
     }
   }),
 
+  {search} = useSelector((state) =>{
+    return{
+       search: state.recipes.search
+    }
+  }),
+
   handleSubmit = (e) =>{
-    e.preventDefault()
-    createRecipe(creation)
+    e.preventDefault();
+    createRecipe(creation);
+    setCreation({
+      title:'', 
+      healthScore:0,
+      summary:'',
+      instructions:'',
+      dietsTypes:[],
+    });
+    setCheck((i)=>({...i, radio:true, message:true}));
+    arrayBackground();
+    setChangeSelect([]);
   },
 
   eventHandler =(e) =>{
-    if (e.target.id === 'name') {
+    if (e.target.id === 'title') {
       if (e.target.value.length > 0) {
         e.target.value.match(/[\w\s]+/g) === null ||
         e.target.value.match(/[\w\s]+/g).join() !== e.target.value  ? 
@@ -58,11 +77,12 @@ export default function CreateRecipe() {
         setCheck((i)=>({...i, stateRd:'normal'}))
       }
     }
+    setCheck((i)=>({...i, message:false}));
     setCreation((i) =>({...i, [e.target.id]: e.target.value}))
   },
 
   eventHandlerCheck =(e) =>{
-    setCheck((i)=>({...i, radio: true}))
+    setCheck((i)=>({...i, radio: true, message:false}))
     setChangeSelect([])
     arrayBackground()
   }, 
@@ -72,6 +92,8 @@ export default function CreateRecipe() {
     diets ? setChangeSelect(diets):
     setChangeSelect([...changeSelect, e.target.value]);
     arrayBackground(e.target.value, changeSelect)
+    setCheck((i)=>({...i,message:false}))
+    console.log(e.target.style)
   };
 
   useEffect(()=>{
@@ -90,62 +112,70 @@ export default function CreateRecipe() {
   }, [creation])
 
   return(
-    <div>
-      <div>
+    <div className='containerCreate'>
+      {search.api && <Navigate to="/main" replace={true} />}
+      <div className='navbar'>
       <Input />
-      <Link to={'/main'}><button> Home </button></Link>
+        <div className='btnsTop'>
+          <Link to={'/main'} ><button className='btnHome' id='btnHome' > Home </button></Link>
+        </div>
       </div>
-      <h2>Create You're Recipe!...</h2>
-      <form onSubmit={(e) => handleSubmit(e)} method='post'>
-        <div>
+      <h2 className='title'>Create You're Recipe!...</h2>
+      <form className='form' id='form' onSubmit={(e) => handleSubmit(e)} method='post'>
+        <div className='name'>
           <label htmlFor="" >Recipe Name*: </label>
           <input placeholder='Not special characters: ?@#%'
+            value={creation.title}
             className={`${check.stateIn}`} id="title" 
             onChange={(e) => eventHandler(e)}/>
-          <br />
-          {check.stateIn === 'error' && <span>{ 'Try not to enter special characters, like: "$%&()/"... etc.'}</span>}
+          {check.stateIn === 'error' && <span className='error'>{ 'Try not to enter special characters, like: "$%&()/"... etc.'}</span>}
         </div>
-        <div>
+        <div className='healthScore'>
           <label htmlFor="">Health Score: </label>
           <input type='number' placeholder='Rate your recipe'
+            value={creation.healthScore}
             min="0" max="100" className={`${check.stateRd}`}
             id="healthScore" 
             onChange={(e) => eventHandler(e)}/>
         <br />
-        {check.stateRd === 'error' && <span>{'Limit: 0 - 100'} </span> }
+        {check.stateRd === 'error' && <span className='error'>{'Limit: 0 - 100'} </span> }
         </div>
-        <div>
+        <div className='summary'>
           <label htmlFor="summary">Summary: </label>
-          <input placeholder='Enter a description' 
-            className="description" id="summary" 
-            onChange={(e) => eventHandler(e)}/>
+          <textarea id="summary" cols="30" rows="10"
+            value={creation.summary}
+            className="description"
+            placeholder='Enter a description'
+            onChange={(e) => eventHandler(e)}/>      
         </div>
-        <div>
+        <div className='steps'>
           <label htmlFor="instructions">Steps*: </label>
-          <input placeholder='How do you prepare it?' 
-            className="description" id="instructions" 
-            onChange={(e) => eventHandler(e)}/>
+          <textarea id="instructions" cols="30" rows="10"
+              className="description"
+              placeholder='How do you prepare it?'             
+              value={creation.instructions}
+              onChange={(e) => eventHandler(e)} />
         <br />
         </div>
-        <div>
+        <div className='dietTypes'>
         <label htmlFor="">Diet Types: </label>
-        <br />
-          <select multiple name="" id="diets-create" onChange={(e) => eventHandlerDiets(e)}>
-            <option value="disabled" disabled>Select Option</option>
+          <select value={[]} multiple id="diets-create" onChange={(e) => eventHandlerDiets(e)}>
             {diets.map(e =>{
               return (
                 <option id={e.id} className='diets-create' key={e.id} value={e.id}>{e.name}</option>
               )
             })}
           </select>
-          <br />
+          <div className='radio-form'>
           <input checked={check.radio} type="radio" id='radio' onChange={(e) => eventHandlerCheck(e)}/>
           <label htmlFor="" >None</label>
+          </div>
+          <button type='submit' disabled={check.btn} id='btnsubmit'>Create</button>
         </div>
-        <button type='submit' disabled={check.btn}>Create</button>
       </form>
-        <div>
-            <p>* Required fields</p>
+        <div className='foot'>
+            {check.message && <span className='succes'>Recipe created successfully </span>}
+            <span className='note'>* Required fields</span>
         </div>
     </div>
   );

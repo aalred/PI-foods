@@ -42,9 +42,9 @@ routerRc.post('/',  async(req, res) =>{
     const {title, summary, healthScore, instructions, dietsTypes } = req.body;
     const recipe = await Recipe.create({title, summary, healthScore, instructions});
 
-    await recipe.addDiets([1 , 2, 3]);
+    await recipe.addDiets(dietsTypes);
     
-    res.json({"message": mixin});
+    res.json({"message": recipe});
   } catch (error) {
     res.status(404).json({"Error" : error.message})
   }

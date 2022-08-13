@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&display=swap');
+
+:root{
+  --btn-bottom-w: 40px;
+  --btn-bottom-h: 30px
+}
+
+.container {
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 10px 2.5fr 0.2fr; 
+    grid-template-areas: 
+      "navbar"
+      "recipes"
+      "btns-bottom"; 
+    justify-items: stretch; 
+  }
+  .recipes { 
+    display: inline-table;
+    grid-area: recipes;
+    margin-top: 2.3%;
+    margin-left: 2.3%;
+    background-color: var(--tables-color);
+    height: 550px;
+    width: 40px;
+  }
+
+    .title-text{
+      font-size: 25px;
+      width: 300px;
+      color: #F6EEDF;
+      font-family: 'Oleo Script Swash Caps', cursive;
+      text-decoration: none;
+    }
+    .title-text:hover{
+      color: #f6eedfa8;
+    }
+    .card-recipes{
+      background-color: red;
+    }
+  .btns-bottom{
+    display: flex;
+    grid-area: btns-bottom ;
+    justify-content: center;
+  }
+    .direc { 
+      background-color: var(--tables-color);
+      border: transparent;
+      height:var(--btn-bottom-h) ;
+      width: var(--btn-bottom-w) + 30px;
+    }
+      #Prev{
+        border-radius: 5px 0px 0px 5px;
+      }
+      #Next{
+        border-radius: 0px 5px 5px 0px;
+      }
+    
+    .nums{
+      height: var(--btn-bottom-h);
+      width:var(--btn-bottom-w) ;
+      background-color: var(--tables-color);
+      border: transparent;
+    }

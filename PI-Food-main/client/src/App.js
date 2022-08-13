@@ -6,6 +6,7 @@ import LandingPage from './components/LandingPage';
 import MainPage from './components/MainPage';
 import DetailRecipe from './components/DetailRecipe';
 import CreateRecipe from './components/CreateRecipe';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route exact path={"/detail/:id"} element={<DetailRecipe />} />
         <Route path={"/main"} element={<MainPage />} />
         <Route path={"/creatRecipe"} element={<CreateRecipe />} />
+        <Route path={'/not-found'} element={<NotFound />} />
       </Routes>
     </React.Fragment>
   );

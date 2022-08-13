@@ -8,7 +8,6 @@ let data;
 
 module.exports={
   getListApi:  async function(name){
-
     if (!name){
        await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=100&addRecipeInformation=true`)
         .then((response) => {
@@ -46,15 +45,15 @@ module.exports={
   }, 
 
   
-  getDetailApi: async function(virtualID){
-    if(/[a-zA-Z]/.test(virtualID) )throw new Error('"Id" must be a number.')
+  getDetailApi: async function(id){
+    if(/[a-zA-Z]/.test(id) )throw new Error('"Id" must be a number.')
     data = {
       id,
     }
     await (axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`)
       .then((response) => {
         data.image = response.data.image;
-        data.name = response.data.title;
+        data.title = response.data.title;
         data.healthScore = response.data.healthScore;
         data.diets = response.data.diets;
         data.dishTypes = response.data.dishTypes;
@@ -76,20 +75,20 @@ module.exports={
       data = await Recipe.findAll({
         include: Diet, 
         where: {
-          name:{
+          title:{
             [Op.iLike]:`%${name}%`,
           }
         },
       });
     }
-    if(!data.length) return []
     return data;
   },
 
   getDetailDb: async function(id){
     id = parseInt(id)
-    data = await Recipe.findByPk(id)
+    data = await Recipe.findOne({ where: { id }, include: Diet })
     if(!data) throw new Error('Request failed with status code 404');
+    console.log(data)
     return data;
   },
 
@@ -106,13 +105,8 @@ module.exports={
         {name:"Primal"},
         {name:"Fodmap Friendly"},
         {name:"Whole 30"},
-        {name:"Fruitarian"},
-        {name:"Clean Eating"},
-        {name:"Mediterranean"},
-        {name:"Weight Watchers"},
-        {name:"Grain Free"},
         {name:"Dairy Free"},
-        {name:"GAPS"},
+        {name:"Fruitarian"},
       ]);
     }
     return data;

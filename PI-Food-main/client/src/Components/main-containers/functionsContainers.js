@@ -12,6 +12,39 @@ function filterDiets(dietsTypes, newRecipes){
     return newRecipes
 }
 
+function orderDiets(recipes , search){
+    if (search.db) {
+        search.db.forEach(e => {
+            e.diets = e.diets.map(e=>{
+                if (typeof e === 'object') {
+                    return e.name.toLowerCase()
+                }
+                return e.toLowerCase()
+            }) 
+        })
+    } else if (recipes.db) {
+        recipes.db.forEach(e => {
+            e.diets = e.diets.map(e=>{
+                if (typeof e === 'object') {
+                    return e.name.toLowerCase()
+                }
+                return e.toLowerCase()
+            }) 
+        })
+    }
+}
+
+function orderDietRecipe(recipe){
+    if (recipe.diets) {
+        return recipe.diets = recipe.diets.map(e=>{
+            if (typeof e === 'object') {
+                return e.name.toLowerCase()
+            }
+            return e.toLowerCase()
+        })
+    }
+}
+
 function filterOrder ({alphabet, healthSc, dietsTypes}, recipes, search){
     if(search.api || search.db){
         let newRecipes = search.api.concat(search.db);
@@ -98,5 +131,7 @@ module.exports ={
     createNumBtn,
     switchBtns,
     arrayDiets,
-    arrayBackground
+    arrayBackground, 
+    orderDiets,
+    orderDietRecipe
 }

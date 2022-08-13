@@ -1,22 +1,182 @@
+
+
+:root {
+  --font-size-form: 25px;
+  --font-size-text-info: 20px;
+  --tables-color: #f84c60;
+  --buttons-color: #e9f8f8;
+  --buttons-active-color: #e9f8f88a;
+}
+
 .error{
-    border-color: red;
+  border-color: red;
+  background-color: red;
+}
+span.error{
+  border-color: red;
+  margin-top: 3px;
+  width: 80%;
+  color: white;
+  background-color: red;
 }
 
 .normal{
-    width: 200px;
+  width: 200px;
 }
 
 #healthScore{
-    width: 120px;
+  width: 200px;
 }
-h2{
+
+.containerCreate {
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: .5fr .4fr 3fr 0.2fr; 
+    grid-template-areas: 
+      "navbar"
+      "title "
+      "form "
+      "foot " ;
+    font-family: 'Lobster', cursive;
+}
+
+  .title { 
+    display:flex ;
+    grid-area: title; 
+    background-color: var(--tables-color) ;
     font-size: 40px;
-}
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px;
+    margin: 1% 10%;
+  }
 
-.select{
-    background-color: gray;
-}
+  .form { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 0.4fr .8fr 1.1fr; 
+    grid-template-areas: 
+      "name healthScore"
+      "summary steps"
+      "dietTypes dietTypes"; 
+    grid-area: form; 
+    background-color: var(--tables-color);
+    margin: 1% 10%;
+    height: auto;
+    align-items: flex-start;
+    padding: 14px;
 
-.diets-create::selection{
-    background-color:transparent;
-}
+  }
+    .name {
+      display: flex;
+      flex-direction: column;
+      grid-area: name; 
+      font-size: var(--font-size-form);
+    }
+      #title{
+        height: 40px;
+        width: 300px;
+        font-size: var(--font-size-text-info);
+      }
+    .healthScore { 
+      display: flex;
+      flex-direction: column;
+      grid-area: healthScore;
+      font-size: var(--font-size-form);
+    }
+      #healthScore{
+        height: 40px;
+        width: 300px;
+        font-size: var(--font-size-text-info);
+      }
+    .summary { 
+      grid-area: summary; 
+      font-size: var(--font-size-form);
+      display: flex;
+      flex-direction: column;
+      padding-right: 20px;
+    }
+      #summary{
+        height: 130px;
+        width: 50;
+        font-size: var(--font-size-text-info);
+      }
+    .steps { 
+      display: flex;
+      flex-direction: column;
+      grid-area: steps; 
+      font-size: var(--font-size-form);
+    }
+      #instructions{
+        height: 130px;
+        width: 50;
+        font-size: var(--font-size-text-info);
+      }
+    .dietTypes { 
+      display: flex;
+      flex-direction: column;
+      grid-area: dietTypes; 
+      font-size: var(--font-size-form);
+      margin-top: -10px;
+    }
+
+      #diets-create{
+        height: 150px;
+      }
+
+      .diets-create{
+        font-size: 18px;
+      }
+
+      .radio-form{
+        padding: 5px;
+        display: block;
+      }
+        #btnsubmit{
+          height: 30px;
+          background-color: var(--buttons-color);  
+        }
+        #btnsubmit{
+          height: 30px;
+          background-color: var(--buttons-active-color);  
+        }
+
+  .foot {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "succes"
+      "note"; 
+    grid-area: foot; 
+  }
+  
+    .succes { 
+      display: flex;
+      justify-content: center;
+      grid-area: succes; 
+      background-color: green;
+      font-size: var(--font-size-form);
+      padding: 6px 0px;
+      margin: 0% 10%;
+      color: white;
+    }
+    .note { 
+      display: flex;
+      justify-content: center;
+      grid-area: note; 
+      background-color: var(--tables-color);
+      font-size: var(--font-size-form);
+      padding: 6px 0px;
+      margin: 0% 10%;
+    }
+
+    textarea{
+      resize: none;
+    }
+
+    option:active{
+      background-color: red;
+    }

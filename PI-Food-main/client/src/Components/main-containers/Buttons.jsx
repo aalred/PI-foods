@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+
 import { createNumBtn, switchBtns } from './functionsContainers';
+
 import RecipeCards from './RecipeCards';
+import NotFound from '../NotFound';
+
+import './style.css'
 
 export default function Buttons({renderRec, filters}) {
   const [buttons, setbuttons] = useState([]),
@@ -10,12 +15,15 @@ export default function Buttons({renderRec, filters}) {
  
   useEffect(() => {
     const btns =  document.querySelectorAll('.nums'),
-    btnsD = document.querySelectorAll('.direc');
+    btnsDirection = document.querySelectorAll('.direc');
 
-    if (btnsD) {
-      index.page === 1 ? btnsD[0].disabled = true :btnsD[0].disabled = false;
-      
-      index.page === buttons.length ? btnsD[1].disabled = true :btnsD[1].disabled = false;
+    if (btnsDirection) {
+      index.page === 1 ? btnsDirection[0].disabled = true :btnsDirection[0].disabled = false;
+      index.page === btns.length ? btnsDirection[1].disabled = true :btnsDirection[1].disabled = false;
+    }
+    if (btns.length === 0) {
+      btnsDirection[0].disabled = true;
+      btnsDirection[1].disabled = true;
     }
 
     btns[0] && switchBtns(index.page);
@@ -47,8 +55,8 @@ export default function Buttons({renderRec, filters}) {
 
   return (
     <div>
-      <br />
-      <div>
+       {renderRec && renderRec.length === 0 && <NotFound />}
+      <div  >
       {array.map(e =>{
          return <RecipeCards 
           key={e.id}
@@ -61,18 +69,22 @@ export default function Buttons({renderRec, filters}) {
       })}
       </div>
       <br />
-      {<button className='direc' id='Prev' onClick={(e) => handlerDireccion(e) } >Previous</button>}
-      {buttons.map((e) => {
-      return( 
-        <button key={e} 
-        className='nums'
-        id={e} 
-        onClick={(e) => handlerClick(e)} > 
-          {e} 
-        </button>
-      )
-      })}
-      {<button className='direc' id='Next' onClick={(e) => handlerDireccion(e) }>Next</button>}
+
+      <div className='btns-bottom'>
+        {<button className='direc' id='Prev' onClick={(e) => handlerDireccion(e) } >Previous</button>}
+        {buttons.map((e) => {
+        return( 
+          <button key={e} 
+          className='nums'
+          id={e} 
+          onClick={(e) => handlerClick(e)} > 
+            {e} 
+          </button>
+        )
+        })}
+        {<button className='direc' id='Next' onClick={(e) => handlerDireccion(e) }>Next</button>}
+      </div>
+      
     </div>
   );
 };

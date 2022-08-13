@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { searchRecipe } from '../../redux/action';
   
 export default function Input() {
@@ -19,13 +20,14 @@ export default function Input() {
     };
 
     return(
-        <span>
+        <div>
+        <div className='input'>
+            <label id='text' htmlFor="search"> Looking for something special? </label>
             <div>
-                <label htmlFor=""> Looking for something special? </label>
-                <br />
-                <input type="search" placeholder='Find it here!' onChange={(e) => handlerChange(e)}/>
-                <button onKeyPress={(e) => console.log(e)} onClick={(e) => handlerClick(e)}>Search</button>
-            </div>
-        </span>
+                <input id='search' type="search" placeholder='Find it here!' onChange={(e) => handlerChange(e)}/>
+                <button id='btnsearch' onClick={(e) => handlerClick(e)}>Search</button>
+             </div>
+        </div>
+        </div>
     );
 };

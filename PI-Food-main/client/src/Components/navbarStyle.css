@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+:root{
+    --navbar-color: #db0b24;
+    --background-color-page: #F6EEDF;
+}
+
+body{
+  background-color: var(--background-color-page);
+}
+
+.navbar {
+    display: grid; 
+    grid-template-columns: 1fr 1.8fr .5fr; 
+    grid-template-areas: 
+    "input filters btnsTop"; 
+    align-items: center; 
+    grid-area: navbar; 
+    background-color: var(--navbar-color);
+    height: 100px
+  }
+
+    .btnsTop {
+        display: grid; 
+        grid-template-columns: 1fr; 
+        grid-template-rows: 1fr 1fr; 
+        grid-template-areas: 
+          "btnHome"
+          "btnCreate"; 
+        padding-right: 20px;
+        grid-area: btnsTop; 
+
+      }
+        .btnCreate { 
+            grid-area: btnCreate; 
+            background-color: var(--buttons-color);
+            border: var(--buttons-color);
+            width: 130px;
+            height: 80%;
+            font-size: 100%;
+            margin-bottom: 10px;
+        }
+        .btnCreate:hover{
+          background-color: var(--buttons-active-color);
+        }
+        .btnHome {
+            grid-area: btnHome; 
+            background-color: var(--buttons-color);
+            border: var(--buttons-color);
+            width: 130px;
+            height: 80%;
+            font-size: 100%;
+            margin-top: 5px;
+        }
+    #btnHome:hover{
+      background-color: var(--buttons-active-color);
+      width: 130px;
+    }
+    .input {
+        display:flex ;
+        grid-area: input; 
+        align-items: flex-start;
+        font-size: 25px;
+        flex-direction: column;
+        padding-left: 20px;
+        color: #F6EEDF;
+        font-family: 'Lobster', cursive;
+    }
+      #search{
+        background-color: white;
+        border-color: white;
+        border-radius: 10px 0px 0px 10px;
+        height: 30px;
+        width: 290px;
+        border-style: none;
+        padding-left: 10px;
+      }
+      #btnsearch{
+        border-radius: 0px 10px 10px 0px;
+        background-color: var(--buttons-color);
+        border: transparent;
+        height: 30px;
+      }
+      #btnsearch:hover{
+        background-color: var(--buttons-active-color);
+      }
+
+      .filters{
+        display: flex;
+        position: relative;
+        grid-area: filters;
+        color: #F6EEDF;
+        font-size:25px;
+        bottom: 60px;
+        justify-content: space-around;
+        font-family: 'Lobster', cursive;
+        }
+
+      .select-list-diet{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        right: 100%;
+        width: 190px;
+      }
+
+      .select-list-alphabet{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        align-items: center;
+        bottom: 35%;
+      }
+
+      .select-list-healthSc{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        bottom: 68%;
+        left: 90%;
+      }
+
+      #healthSc{
+        font-size: 16px;
+      }
+
+      #alphabet{
+        font-size: 16px;
+      }
+
+      #dietsTypes{
+        font-size: 16px;
+      }
