@@ -8,12 +8,8 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      get(){
-        const rawValue = this.getDataValue('id');
-        return rawValue + 'B';
-      }
     },
-    name: {
+    title: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
@@ -26,6 +22,12 @@ module.exports = (sequelize) => {
     },
     instructions: {
       type: DataTypes.TEXT,
+    },
+    virtualID:{
+      type: DataTypes.VIRTUAL,
+      get(){
+        return this.id + 'B';
+      }
     },
   },
   {

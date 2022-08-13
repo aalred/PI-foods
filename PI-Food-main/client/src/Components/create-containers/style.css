@@ -1,0 +1,22 @@
+.error{
+    border-color: red;
+}
+
+.normal{
+    width: 200px;
+}
+
+#healthScore{
+    width: 120px;
+}
+h2{
+    font-size: 40px;
+}
+
+.select{
+    background-color: gray;
+}
+
+.diets-create::selection{
+    background-color:transparent;
+}

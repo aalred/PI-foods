@@ -8,11 +8,12 @@ let data;
 
 module.exports={
   getListApi:  async function(name){
+
     if (!name){
-       await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=100`)
+       await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=100&addRecipeInformation=true`)
         .then((response) => {
           if (!response.data.results) {
-            data = [404];
+            data = [];
           }
           data = response.data.results
       })
@@ -20,10 +21,10 @@ module.exports={
           throw new Error(err.message)
       })
     } else if (name) {
-       await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${name}&apiKey=${apiKey}`)
+       await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${name}&apiKey=${apiKey}&number=100&addRecipeInformation=true`)
       .then((response) => {
         if (!response.data.results.length) {
-          data = [404];
+          data = [];
         }
           data = response.data.results
         })
@@ -31,13 +32,23 @@ module.exports={
           throw new Error(err.message)
       })
     }   
-    return data;
+  
+    return data.map(e => {
+      const recipes = {};
+      recipes.id = e.id;
+      recipes.title = e.title;
+      recipes.image = e.image;
+      recipes.healthScore = e.healthScore;
+      recipes.diets = e.diets;
+
+      return recipes
+    });
   }, 
 
   
-  getDetailApi: async function(id){
-    if(/[a-zA-Z]/.test(id) )throw new Error('"Id" must be a number.')
-    data ={
+  getDetailApi: async function(virtualID){
+    if(/[a-zA-Z]/.test(virtualID) )throw new Error('"Id" must be a number.')
+    data = {
       id,
     }
     await (axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`)
@@ -58,17 +69,20 @@ module.exports={
     
   getListDb: async function(name){
     if (!name) {
-      data = await Recipe.findAll()  
+      data = await Recipe.findAll({
+        include: Diet
+      });  
     }else if(name){
       data = await Recipe.findAll({
+        include: Diet, 
         where: {
           name:{
             [Op.iLike]:`%${name}%`,
           }
-        }
+        },
       });
     }
-    if(!data.length) return [404]
+    if(!data.length) return []
     return data;
   },
 
@@ -83,23 +97,22 @@ module.exports={
     data = await Diet.findAll();
     if(!data.length){
       data = await Diet.bulkCreate([
-        {name:"Omnivore"},
-        {name:"Gluten Free Diet"},
-        {name:"Ketogenic Diet"},
-        {name:"Vegetarian"},
-        {name:"Lacto-Vegetarian"},
-        {name:"Ovo-Vegetarian"},
+        {name:"Gluten Free"},
+        {name:"Ketogenic"},
+        {name:"Lacto Ovo Vegetarian"},
         {name:"Vegan"},
-        {name:"Pescetarian"},
-        {name:"Paleo Diet"},
-        {name:"Low FODMAP Diet"},
-        {name:"Whole30"},
+        {name:"Pescatarian"},
+        {name:"Paleolithic"},
+        {name:"Primal"},
+        {name:"Fodmap Friendly"},
+        {name:"Whole 30"},
         {name:"Fruitarian"},
         {name:"Clean Eating"},
-        {name:"Mediterranean Diet"},
+        {name:"Mediterranean"},
         {name:"Weight Watchers"},
-        {name:"Grain Free Diet"},
-        {name:"GAPS Diet"},
+        {name:"Grain Free"},
+        {name:"Dairy Free"},
+        {name:"GAPS"},
       ]);
     }
     return data;

@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom'
 import mainImage from '../image-resources/main-image.jpg'
 
 export default function LandingPage() {
+
   return (
     <div>
       <h1>
-        Wi-Kitchen!
+        WiKi-tchen!
       </h1>
       <img src={mainImage} alt=""/>
       <div> 
         <p>A recipe for every moment.</p>
-        <button>Know More</button>
+        <Link to='/main'><button>Know More</button></Link>
       </div>
+
     </div>
   );
 };
