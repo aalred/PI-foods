@@ -71,8 +71,8 @@ export default function MainPage() {
                 <Link to={'/'}> <button className='btnHome' id='btnHome' onClick={() => handlerClickExit()}> Exit </button> </Link>
                 </div>
         </div>
+                { recipes.api ?  error === false && <Filters diets={diets} recipes={recipes} search={search}/> : error === false && <Loading/>}
                 {error && <NotFound />}
-                { recipes.api ? <Filters diets={diets} recipes={recipes} search={search}/> : error === false && <Loading/>}
         </div>
     );
 }
