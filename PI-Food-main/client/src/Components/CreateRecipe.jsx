@@ -40,9 +40,9 @@ export default function CreateRecipe() {
     }
   }),
 
-  {search} = useSelector((state) =>{
+  {navigate} = useSelector((state) =>{
     return{
-       search: state.recipes.search
+      navigate: state.navigate
     }
   }),
 
@@ -81,7 +81,7 @@ export default function CreateRecipe() {
     setCreation((i) =>({...i, [e.target.id]: e.target.value}))
   },
 
-  eventHandlerCheck =(e) =>{
+  eventHandlerCheck =() =>{
     setCheck((i)=>({...i, radio: true, message:false}))
     setChangeSelect([])
     arrayBackground()
@@ -113,7 +113,7 @@ export default function CreateRecipe() {
 
   return(
     <div className='containerCreate'>
-      {search.api && <Navigate to="/main" replace={true} />}
+      {navigate && <Navigate to="/main" replace={true} />}
       <div className='navbar'>
       <Input />
         <div className='btnsTop'>
@@ -159,7 +159,7 @@ export default function CreateRecipe() {
         </div>
         <div className='dietTypes'>
         <label htmlFor="">Diet Types: </label>
-          <select value={[]} multiple id="diets-create" onChange={(e) => eventHandlerDiets(e)}>
+          <select value={[]} multiple id="diets-create" onChange={() => eventHandlerDiets()}>
             {diets.map(e =>{
               return (
                 <option id={e.id} className='diets-create' key={e.id} value={e.id}>{e.name}</option>

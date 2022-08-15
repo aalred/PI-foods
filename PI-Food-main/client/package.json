@@ -21,6 +21,7 @@
     "redux-thunk": "^2.4.1",
     "terser-webpack-plugin": "^5.3.3",
     "web-vitals": "^2.1.4",
+    "webpack": "^5.74.0",
     "webpack-dev-server": "^4.9.3",
     "webpack-manifest-plugin": "^5.0.0"
   },
