@@ -66,7 +66,7 @@ export default function DetailRecipe(params) {
         <Input />
         <div className='btnsTop' >
           <Link to={"/creatRecipe"}> <button className='btnCreate' >Creat Recipe</button></Link>
-          <Link to={'/main'}><button className='btnHome'> Home </button></Link>
+          <Link to={'/main'}><button className='btnHome' id='btnHome'> Home </button></Link>
         </div>
       </div>
       {recipe.id ? <BodyRecipe  className='cards-recipes' recipe={recipeDetail} /> : <Loading />}
