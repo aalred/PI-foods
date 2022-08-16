@@ -8,7 +8,6 @@ export default function BodyRecipe({recipe}) {
   recipe.image = recipe.image? recipe.image : mainImage;  
 
     useEffect(() =>{
-      console.log(recipe)
         recipe && (document.getElementById('summary-detail').innerHTML= recipe.summary);
         recipe && (document.getElementById('instructions-detail').innerHTML= recipe.instructions);
     }, [recipe]);  

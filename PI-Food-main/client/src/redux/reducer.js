@@ -6,6 +6,10 @@ import { GET_DIETS,
   ERROR,
   CHANGE_COMPONENT, 
   RESET,
+  CHANGE_COMPONENT_TRUE,
+  RESET_RECIPE_INFO,
+  LOADING,
+  LOADING_TRUE,
  } from './action';
 
 const initialState = {
@@ -13,7 +17,8 @@ const initialState = {
     recipe:[],
     diets:[],
     error: false,
-    navigate: false
+    navigate: false,
+    isLoading: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -27,7 +32,6 @@ const rootReducer = (state = initialState, action) => {
       return{
         ...state,
        recipes : {...state.recipes, search : action.payload},
-       navigate: true
       };
     case GET_RECIPES:
       return{
@@ -47,20 +51,41 @@ const rootReducer = (state = initialState, action) => {
     case RESET_SEARCH:
       return{
         ...state,
-        recipes : {...state.recipes, search : []}
+        recipes : {...state.recipes, search : []},
+        isLoading: false
       };
-      case RESET:
+    case RESET:
+      return{
+        ...state, 
+        recipes:{...state.recipes, search : []},
+        recipe:[],
+        error: false
+      }
+    case RESET_RECIPE_INFO:
+      return{
+        ...state, 
+        recipe:[],
+      }
+      case CHANGE_COMPONENT:
         return{
-          ...state, 
-          recipes:{...state.recipes, search : []},
-          recipe:[],
-          error: false
+          ...state,
+          navigate:false,
         }
-        case CHANGE_COMPONENT:
-          return{
-            ...state,
-            navigate:false,
-          }
+      case CHANGE_COMPONENT_TRUE:
+        return{
+          ...state,
+          navigate:true,
+        }
+      case LOADING:
+        return{
+          ...state,
+          isLoading:false,
+        }
+      case LOADING_TRUE:
+        return{
+          ...state,
+          isLoading:true,
+        }
     default:
       return {...state};
   }

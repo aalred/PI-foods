@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { searchRecipe } from '../../redux/action';
+import { loadingTrue, navigateTrue, searchRecipe } from '../../redux/action';
   
 export default function Input() {
     const [value, setValue] = useState(''),
@@ -15,10 +15,11 @@ export default function Input() {
     handlerClick = (e) =>{
         e.preventDefault();
         if (value.trim()) {
-            dispatch(searchRecipe(value))
+            dispatch(navigateTrue());
+            dispatch(searchRecipe(value));
+            dispatch(loadingTrue())
         }
     };
-
     return(
         <div>
         <div className='input'>

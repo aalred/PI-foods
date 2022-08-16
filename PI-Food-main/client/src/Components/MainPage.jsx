@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 import { orderDiets } from './main-containers/functionsContainers';
-import { getAllDiets, resetAll, resetSearch } from '../redux/action';
+import { getAllDiets, loadingFalse, resetAll, resetRecipeInfo, resetSearch } from '../redux/action';
 import { getAllRecipes } from '../redux/action';
 
 import Loading from './detail-containers/Loading';
@@ -14,8 +14,19 @@ import NotFound from './NotFound';
 import './navbarStyle.css'
 
 export default function MainPage() {
-    const dispatch = useDispatch();
-
+    const dispatch = useDispatch(),
+    
+    {diets} = useSelector((state) =>{
+      return{
+        diets: state.diets
+      }
+  }),
+  
+  {recipes} = useSelector((state) =>{
+      return{
+          recipes: state.recipes.all
+      }
+  });
     function handlerClick(){
         dispatch(resetSearch());
         if (error) {
@@ -28,24 +39,18 @@ export default function MainPage() {
     }
     
     useEffect(() => {
-        dispatch(getAllDiets());                           
-        dispatch(getAllRecipes()) 
+        if(!diets.length){
+            dispatch(getAllDiets());                           
+        }
+        if (!recipes.api) {
+            dispatch(getAllRecipes());
+        }
+        dispatch(resetRecipeInfo())
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       
-      const {diets} = useSelector((state) =>{
-        return{
-          diets: state.diets
-        }
-    }),
-    
-        {recipes} = useSelector((state) =>{
-            return{
-                recipes: state.recipes.all
-            }
-        }),
 
-    {search} = useSelector((state) =>{
+    const {search} = useSelector((state) =>{
         return{
             search: state.recipes.search
         }
@@ -55,13 +60,21 @@ export default function MainPage() {
         return{
             error: state.error
         }
+    }), 
+
+    {isLoading} = useSelector((state) =>{
+        return{
+            isLoading: state.isLoading
+        }
     });
 
     useEffect(() => {
+        if (search.api) {
+            dispatch(loadingFalse())
+        }
        orderDiets(recipes, search);
       }, [search, recipes]);
     
-
     return(
         <div>
         <div className='navbar'>
@@ -71,7 +84,8 @@ export default function MainPage() {
                 <Link to={'/'}> <button className='btnHome' id='btnHome' onClick={() => handlerClickExit()}> Exit </button> </Link>
                 </div>
         </div>
-                { recipes.api ?  error === false && <Filters diets={diets} recipes={recipes} search={search}/> : error === false && <Loading/>}
+                { recipes.api ?  error === false && isLoading === false && <Filters diets={diets} recipes={recipes} search={search}/> : error === false && <Loading/>}
+                {isLoading === true &&  <Loading/>}
                 {error && <NotFound />}
         </div>
     );

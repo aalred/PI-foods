@@ -5,7 +5,7 @@ import { Link, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { arrayBackground, arrayDiets } from './main-containers/functionsContainers';
-import { getAllDiets } from '../redux/action';
+import { getAllDiets, getAllRecipes } from '../redux/action';
 import { createRecipe } from '../redux/action';
 
 import Input from './main-containers/Input';
@@ -48,6 +48,7 @@ export default function CreateRecipe() {
 
   handleSubmit = (e) =>{
     e.preventDefault();
+    dispatch(getAllRecipes())
     createRecipe(creation);
     setCreation({
       title:'', 
@@ -93,7 +94,6 @@ export default function CreateRecipe() {
     setChangeSelect([...changeSelect, e.target.value]);
     arrayBackground(e.target.value, changeSelect)
     setCheck((i)=>({...i,message:false}))
-    console.log(e.target.style)
   };
 
   useEffect(()=>{
@@ -111,13 +111,17 @@ export default function CreateRecipe() {
     setCheck((i)=>({...i, btn: true}));
   }, [creation])
 
+  function handlerDispatch(){
+
+  }
+
   return(
     <div className='containerCreate'>
       {navigate && <Navigate to="/main" replace={true} />}
       <div className='navbar'>
       <Input />
         <div className='btnsTop'>
-          <Link to={'/main'} ><button className='btnHome' id='btnHome' > Home </button></Link>
+          <Link to={'/main'} onClick ={() => handlerDispatch()} ><button className='btnHome' id='btnHome' > Home </button></Link>
         </div>
       </div>
       <h2 className='title'>Create You're Recipe!...</h2>
@@ -159,7 +163,7 @@ export default function CreateRecipe() {
         </div>
         <div className='dietTypes'>
         <label htmlFor="">Diet Types: </label>
-          <select value={[]} multiple id="diets-create" onChange={() => eventHandlerDiets()}>
+          <select value={[]} multiple id="diets-create" onChange={(e) => eventHandlerDiets(e)}>
             {diets.map(e =>{
               return (
                 <option id={e.id} className='diets-create' key={e.id} value={e.id}>{e.name}</option>

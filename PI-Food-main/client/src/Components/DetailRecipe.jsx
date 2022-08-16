@@ -30,6 +30,7 @@ export default function DetailRecipe(params) {
     // eslint-disable-next-line
   }, []);
 
+  
   const {navigate} = useSelector((state) =>{
     return{
       navigate: state.navigate
@@ -53,10 +54,6 @@ export default function DetailRecipe(params) {
     }
     setRecipeDetail(recipe)
   }, [recipe]);
-  
-  useEffect(() =>{
-    console.log(recipeDetail)
-  }, []);
 
   return(
     <div >

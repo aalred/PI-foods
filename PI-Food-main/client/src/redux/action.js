@@ -5,9 +5,13 @@ GET_RECIPE_NAME = 'GET_RECIPE_NAME',
 GET_RECIPE_INFO = 'GET_RECIPE_INFO',
 GET_RECIPES = 'GET_RECIPES',
 RESET_SEARCH = 'RESET_SEARCH',
+RESET_RECIPE_INFO = 'RESET_RECIPE_INFO',
 CHANGE_COMPONENT = 'CHANGE_COMPONENT',
+CHANGE_COMPONENT_TRUE = 'CHANGE_COMPONENT_TRUE',
 ERROR =  'ERROR',
-RESET = 'RESET';
+RESET = 'RESET',
+LOADING= 'LOADING',
+LOADING_TRUE= 'LOADING_TRUE';
 
 export const getAllDiets = () => (dispatch) =>{
     return axios.get('http://localhost:3001/diets')
@@ -96,6 +100,12 @@ export const notNavigate = () =>{
     }
 }
 
+export const navigateTrue = () =>{
+    return{
+        type:CHANGE_COMPONENT_TRUE,
+    }
+}
+
 export const resetSearch = () => {
     return {
         type: RESET_SEARCH,
@@ -105,5 +115,22 @@ export const resetSearch = () => {
 export const resetAll = () =>{
     return{
         type:RESET
+    }
+}
+
+export const resetRecipeInfo = () =>{
+    return{
+        type:RESET_RECIPE_INFO
+    }
+}
+
+export const loadingFalse = () =>{
+    return{
+        type:LOADING
+    }
+}
+export const loadingTrue = () =>{
+    return{
+        type:LOADING_TRUE
     }
 }
